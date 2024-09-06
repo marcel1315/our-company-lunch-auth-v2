@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: our-company-lunch-auth-server
+  profiles:
+    active: local
+server:
+  port: 9020
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
