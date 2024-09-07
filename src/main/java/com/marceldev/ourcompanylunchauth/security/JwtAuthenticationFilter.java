@@ -45,6 +45,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   @Override
   protected boolean shouldNotFilter(HttpServletRequest request) {
-    return request.getServletPath().equals("/users/signin"); // signin 이면 필터 미적용
+    return request.getServletPath().equals("/users/signin"); // No filter when signin
   }
 }

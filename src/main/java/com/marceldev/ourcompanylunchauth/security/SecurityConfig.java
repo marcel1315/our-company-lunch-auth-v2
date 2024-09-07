@@ -23,7 +23,7 @@ public class SecurityConfig {
   @Bean
   public SecurityFilterChain configure(HttpSecurity http) throws Exception {
     return http
-        .csrf(AbstractHttpConfigurer::disable) // Header 에서 jwt 토큰을 이용
+        .csrf(AbstractHttpConfigurer::disable) // Can disable due to jwt usage in header
         .httpBasic(AbstractHttpConfigurer::disable)
         .cors(cors -> cors.configurationSource(corsConfigurationSource()))
         .authorizeHttpRequests(authorization -> authorization

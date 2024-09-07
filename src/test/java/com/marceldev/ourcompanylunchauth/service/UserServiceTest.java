@@ -61,7 +61,6 @@ class UserServiceTest {
     SignUpRequestDto dto = SignUpRequestDto.builder()
         .email("hello@example.com")
         .password("abc123123")
-        .name("이영수")
         .build();
 
     //when
@@ -82,7 +81,6 @@ class UserServiceTest {
     SignUpRequestDto dto = SignUpRequestDto.builder()
         .email("hello@example.com")
         .password("abc123123")
-        .name("이영수")
         .build();
 
     //when

@@ -17,11 +17,7 @@ public class SignUpRequestDto {
   private String email;
 
   @NotNull
-  @Schema(description = "비밀번호는 8~50자. 영문자, 숫자 포함", example = "secretpw12")
+  @Schema(description = "Password should be 8~50 long and include a English letter and a number", example = "secretpw12")
   @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,50}$")
   private String password;
-
-  @NotNull
-  @Schema(example = "이영수")
-  private String name;
 }

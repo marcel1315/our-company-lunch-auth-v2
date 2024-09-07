@@ -18,19 +18,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "1 User", description = "회원 관련")
+@Tag(name = "1 User")
 public class UserController {
 
   private final UserService userService;
 
   @Operation(
-      summary = "회원가입",
-      description = "회원가입시 이메일, 이름, 비밀번호 입력<br>"
-          + "이메일을 아이디로 사용<br>"
+      summary = "Sign Up",
+      description = "Require email and password<br>"
+          + "Email will be username"
   )
   @ApiResponses({
       @ApiResponse(responseCode = "200", description = "OK"),
-      @ApiResponse(responseCode = "400", description = "errorCode: 1001 - 이미 존재하는 회원", content = @Content)
+      @ApiResponse(responseCode = "400", description = "errorCode: 1001 - Already exist user", content = @Content)
   })
   @PostMapping("/users/signup")
   public ResponseEntity<Void> signUp(
@@ -41,8 +41,8 @@ public class UserController {
   }
 
   @Operation(
-      summary = "로그인",
-      description = "아이디(이메일)과 비밀번호를 통해 로그인"
+      summary = "Sign In",
+      description = "Require email and password"
   )
   @ApiResponses({
       @ApiResponse(responseCode = "200", description = "OK")
