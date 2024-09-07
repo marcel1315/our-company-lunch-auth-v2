@@ -6,6 +6,7 @@ import com.marceldev.ourcompanylunchauth.dto.TokenResponseDto;
 import com.marceldev.ourcompanylunchauth.entity.User;
 import com.marceldev.ourcompanylunchauth.exception.AlreadyExistUserException;
 import com.marceldev.ourcompanylunchauth.exception.IncorrectPasswordException;
+import com.marceldev.ourcompanylunchauth.exception.UserNotExistException;
 import com.marceldev.ourcompanylunchauth.model.Role;
 import com.marceldev.ourcompanylunchauth.repository.UserRepository;
 import com.marceldev.ourcompanylunchauth.security.TokenProvider;
@@ -43,7 +44,7 @@ public class UserService {
 
   public TokenResponseDto signIn(SignInRequestDto dto) {
     User user = userRepository.findByEmail(dto.getEmail())
-        .orElseThrow(RuntimeException::new);
+        .orElseThrow(UserNotExistException::new);
 
     if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
       throw new IncorrectPasswordException();
