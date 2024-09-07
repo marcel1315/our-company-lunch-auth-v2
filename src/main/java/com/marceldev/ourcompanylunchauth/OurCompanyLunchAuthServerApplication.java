@@ -1,4 +1,4 @@
-package hello.ourcompanylunchauthserver;
+package com.marceldev.ourcompanylunchauth;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class OurCompanyLunchAuthServerApplication {
   public static void main(String[] args) {
     SpringApplication.run(OurCompanyLunchAuthServerApplication.class, args);
   }
-
 }

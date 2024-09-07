@@ -3,6 +3,11 @@ spring:
     name: our-company-lunch-auth-server
   profiles:
     active: local
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 server:
   port: 9020
 management:
