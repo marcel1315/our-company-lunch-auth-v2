@@ -17,7 +17,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
     security = @SecurityRequirement(name = "BearerAuth"),
     servers = {
         @Server(
-            url = "https://auth.dev.ourcompanylunch.com",
+            url = "https://auth-dev.ourcompanylunch.com",
             description = "Dev Server"
         ),
         @Server(
