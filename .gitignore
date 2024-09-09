@@ -39,3 +39,4 @@ out/
 ### Config ###
 docker-compose.mac.yml
 application-local.yml
+application-mac.yml
