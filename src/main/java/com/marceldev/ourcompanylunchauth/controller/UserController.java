@@ -3,6 +3,9 @@ package com.marceldev.ourcompanylunchauth.controller;
 import com.marceldev.ourcompanylunchauth.dto.SignInRequestDto;
 import com.marceldev.ourcompanylunchauth.dto.SignUpRequestDto;
 import com.marceldev.ourcompanylunchauth.dto.TokenResponseDto;
+import com.marceldev.ourcompanylunchauth.exception.AlreadyExistUserException;
+import com.marceldev.ourcompanylunchauth.exception.ErrorResponse;
+import com.marceldev.ourcompanylunchauth.exception.IncorrectPasswordException;
 import com.marceldev.ourcompanylunchauth.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -12,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,7 +49,8 @@ public class UserController {
       description = "Require email and password"
   )
   @ApiResponses({
-      @ApiResponse(responseCode = "200", description = "OK")
+      @ApiResponse(responseCode = "200", description = "OK"),
+      @ApiResponse(responseCode = "400", description = "errorCode: 1003 - Incorrect password", content = @Content)
   })
   @PostMapping("/users/signin")
   public ResponseEntity<TokenResponseDto> signIn(
@@ -53,5 +58,15 @@ public class UserController {
   ) {
     TokenResponseDto token = userService.signIn(dto);
     return ResponseEntity.ok(token);
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<ErrorResponse> handle(AlreadyExistUserException e) {
+    return ErrorResponse.badRequest(1001, e.getMessage());
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<ErrorResponse> handle(IncorrectPasswordException e) {
+    return ErrorResponse.badRequest(1003, e.getMessage());
   }
 }

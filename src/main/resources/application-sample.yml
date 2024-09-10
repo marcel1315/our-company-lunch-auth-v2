@@ -7,3 +7,4 @@ spring:
 jwt:
   secret:
   expired-in-hour: 24
+business-server-url: http://localhost:8080

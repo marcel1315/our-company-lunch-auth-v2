@@ -27,6 +27,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.client.RestTemplate;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
@@ -39,6 +40,9 @@ class UserServiceTest {
 
   @Mock
   private TokenProvider tokenProvider;
+
+  @Mock
+  private RestTemplate restTemplate;
 
   @InjectMocks
   private UserService userService;

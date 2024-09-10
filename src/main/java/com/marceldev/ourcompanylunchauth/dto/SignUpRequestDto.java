@@ -20,4 +20,8 @@ public class SignUpRequestDto {
   @Schema(description = "Password should be 8~50 long and include a English letter and a number", example = "secretpw12")
   @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,50}$")
   private String password;
+
+  @NotNull
+  @Schema(example = "Marcel")
+  private String name;
 }
