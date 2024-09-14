@@ -4,7 +4,8 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     username: ourcompanylunchauthuser
     password:
-jwt:
-  secret:
-  expired-in-hour: 24
+common:
+  jwt:
+    secret:
+    expired-in-hour: 24
 business-server-url: http://localhost:8080

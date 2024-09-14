@@ -10,7 +10,7 @@ import com.marceldev.ourcompanylunchauth.exception.IncorrectPasswordException;
 import com.marceldev.ourcompanylunchauth.exception.UserNotExistException;
 import com.marceldev.ourcompanylunchauth.model.Role;
 import com.marceldev.ourcompanylunchauth.repository.UserRepository;
-import com.marceldev.ourcompanylunchauth.security.TokenProvider;
+import com.marceldev.ourcompanylunchcommon.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
