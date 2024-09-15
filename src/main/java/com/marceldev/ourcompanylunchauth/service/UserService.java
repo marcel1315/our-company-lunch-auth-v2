@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -110,6 +111,15 @@ public class UserService {
 
     sendVerificationCodeEmail(email, code);
     saveVerificationCodeToDb(email, code);
+  }
+
+  /**
+   * Verification code remains when a user doesn't confirm the requested code and leave.
+   */
+  @Scheduled(cron = "${scheduler.clear-verification-code.cron}")
+  public void clearUnusedVerificationCodes() {
+    int rows = verificationRepository.deleteAllExpiredVerificationCode(LocalDateTime.now());
+    log.info("Verification code clear: {} rows deleted", rows);
   }
 
   private void sendVerificationCodeEmail(String email, String code) {

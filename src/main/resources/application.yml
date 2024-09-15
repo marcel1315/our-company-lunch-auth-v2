@@ -10,6 +10,9 @@ spring:
     show-sql: true
 server:
   port: 9020
+scheduler:
+  clear-verification-code:
+    cron: "0 0 3 * * *" # Run every day 03:00 AM
 management:
   endpoints:
     web:
