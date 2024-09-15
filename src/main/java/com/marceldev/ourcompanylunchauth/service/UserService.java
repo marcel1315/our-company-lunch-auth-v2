@@ -86,6 +86,27 @@ public class UserService {
   }
 
   /**
+   * ONLY FOR LOCAL, DEV environment. This is sign up, but without checking verification code. This
+   * is for bulk user creation.
+   */
+  @Transactional
+  public void mockSignUp(SignUpRequestDto dto) {
+    checkAlreadyExistsUser(dto.getEmail());
+
+    Role role = Role.VIEWER;
+
+    String encPassword = passwordEncoder.encode(dto.getPassword());
+    User user = User.builder()
+        .email(dto.getEmail())
+        .password(encPassword)
+        .role(role)
+        .build();
+
+    userRepository.save(user);
+    businessServerSignUp(dto, role.toString());
+  }
+
+  /**
    * Sign in. Response is JWT token.
    */
   public TokenResponseDto signIn(SignInRequestDto dto) {

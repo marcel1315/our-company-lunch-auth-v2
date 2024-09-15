@@ -30,9 +30,9 @@ public class UserController {
   private final UserService userService;
 
   @Operation(
-      summary = "Sign Up",
-      description = "Require email and password<br>"
-          + "Email will be username"
+      summary = "Sign Up.",
+      description = "Require email and password.<br>"
+          + "Email will be username."
   )
   @ApiResponses({
       @ApiResponse(responseCode = "200", description = "OK"),
@@ -48,8 +48,8 @@ public class UserController {
   }
 
   @Operation(
-      summary = "Sign In",
-      description = "Require email and password"
+      summary = "Sign In.",
+      description = "Require email and password."
   )
   @ApiResponses({
       @ApiResponse(responseCode = "200", description = "OK"),
