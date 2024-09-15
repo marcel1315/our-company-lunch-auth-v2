@@ -3,21 +3,27 @@ package com.marceldev.ourcompanylunchauth.service;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.marceldev.ourcompanylunchauth.component.EmailSender;
+import com.marceldev.ourcompanylunchauth.dto.SendVerificationCodeDto;
 import com.marceldev.ourcompanylunchauth.dto.SignInRequestDto;
 import com.marceldev.ourcompanylunchauth.dto.SignUpRequestDto;
 import com.marceldev.ourcompanylunchauth.dto.TokenResponseDto;
 import com.marceldev.ourcompanylunchauth.entity.User;
+import com.marceldev.ourcompanylunchauth.entity.Verification;
 import com.marceldev.ourcompanylunchauth.exception.AlreadyExistUserException;
 import com.marceldev.ourcompanylunchauth.exception.IncorrectPasswordException;
 import com.marceldev.ourcompanylunchauth.exception.UserNotExistException;
 import com.marceldev.ourcompanylunchauth.model.Role;
 import com.marceldev.ourcompanylunchauth.repository.UserRepository;
+import com.marceldev.ourcompanylunchauth.repository.VerificationRepository;
 import com.marceldev.ourcompanylunchcommon.TokenProvider;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,6 +42,9 @@ class UserServiceTest {
   private UserRepository userRepository;
 
   @Mock
+  private VerificationRepository verificationRepository;
+
+  @Mock
   private PasswordEncoder passwordEncoder;
 
   @Mock
@@ -43,6 +52,9 @@ class UserServiceTest {
 
   @Mock
   private RestTemplate restTemplate;
+
+  @Mock
+  private EmailSender emailSender;
 
   @InjectMocks
   private UserService userService;
@@ -65,9 +77,17 @@ class UserServiceTest {
     SignUpRequestDto dto = SignUpRequestDto.builder()
         .email("hello@example.com")
         .password("abc123123")
+        .code("123456")
+        .build();
+    Verification verification = Verification.builder()
+        .email("hello@example.com")
+        .expirationAt(LocalDateTime.now().plusMinutes(1))
+        .code("123456")
         .build();
 
     //when
+    when(verificationRepository.findByEmail("hello@example.com"))
+        .thenReturn(Optional.of(verification));
     userService.signUp(dto);
     ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
 
@@ -156,5 +176,27 @@ class UserServiceTest {
     //then
     assertThrows(IncorrectPasswordException.class,
         () -> userService.signIn(dto));
+  }
+
+  @Test
+  @DisplayName("Send Verification Code - Success")
+  void send_verification_code() {
+    //given
+    SendVerificationCodeDto dto = new SendVerificationCodeDto();
+    dto.setEmail("hello@example.com");
+
+    //when
+    userService.sendVerificationCode(dto);
+
+    ArgumentCaptor<String> captorEmail = ArgumentCaptor.forClass(String.class);
+    ArgumentCaptor<String> captorSubject = ArgumentCaptor.forClass(String.class);
+    ArgumentCaptor<String> captorBody = ArgumentCaptor.forClass(String.class);
+
+    //then
+    verify(emailSender).sendMail(captorEmail.capture(), captorSubject.capture(),
+        captorBody.capture());
+    assertEquals("hello@example.com", captorEmail.getValue());
+    assertTrue(captorSubject.getValue().contains("Our Company Lunch"));
+    assertTrue(captorBody.getValue().contains("Verification code"));
   }
 }

@@ -124,7 +124,7 @@ public class UserService {
 
   private void sendVerificationCodeEmail(String email, String code) {
     String subject = "[Our Company Lunch] Welcome!";
-    String body = String.format("Verification Code is %s. Enter this in signup field.", code);
+    String body = String.format("Verification code is %s. Enter this in signup field.", code);
     emailSender.sendMail(email, subject, body);
   }
 
