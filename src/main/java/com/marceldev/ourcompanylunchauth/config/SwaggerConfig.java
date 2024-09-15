@@ -10,7 +10,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
 
 @OpenAPIDefinition(
     info = @Info(
-        title = "Our Company Lunch - Comment today's lunch",
+        title = "Our Company Lunch (Auth) - Comment today's lunch",
         version = "0.0.1",
         description = "Comment your lunch, then share it with colleges"
     ),

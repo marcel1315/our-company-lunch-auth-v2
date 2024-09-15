@@ -4,8 +4,19 @@ spring:
     driver-class-name: org.mariadb.jdbc.Driver
     username: ourcompanylunchauthuser
     password:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username:
+    password:
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
 common:
   jwt:
     secret:
     expired-in-hour: 24
 business-server-url: http://localhost:8080
+business-server-signup-path: /members/signup

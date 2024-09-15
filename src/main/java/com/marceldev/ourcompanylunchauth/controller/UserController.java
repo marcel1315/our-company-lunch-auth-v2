@@ -1,11 +1,13 @@
 package com.marceldev.ourcompanylunchauth.controller;
 
+import com.marceldev.ourcompanylunchauth.dto.SendVerificationCodeDto;
 import com.marceldev.ourcompanylunchauth.dto.SignInRequestDto;
 import com.marceldev.ourcompanylunchauth.dto.SignUpRequestDto;
 import com.marceldev.ourcompanylunchauth.dto.TokenResponseDto;
 import com.marceldev.ourcompanylunchauth.exception.AlreadyExistUserException;
 import com.marceldev.ourcompanylunchauth.exception.ErrorResponse;
 import com.marceldev.ourcompanylunchauth.exception.IncorrectPasswordException;
+import com.marceldev.ourcompanylunchauth.exception.VerificationCodeNotFoundException;
 import com.marceldev.ourcompanylunchauth.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -34,7 +36,8 @@ public class UserController {
   )
   @ApiResponses({
       @ApiResponse(responseCode = "200", description = "OK"),
-      @ApiResponse(responseCode = "400", description = "errorCode: 1001 - Already exist user", content = @Content)
+      @ApiResponse(responseCode = "400", description = "errorCode: 1001 - Already exist user", content = @Content),
+      @ApiResponse(responseCode = "400", description = "errorCode: 1002 - Verification code error", content = @Content)
   })
   @PostMapping("/users/signup")
   public ResponseEntity<Void> signUp(
@@ -60,9 +63,25 @@ public class UserController {
     return ResponseEntity.ok(token);
   }
 
+  @Operation(
+      summary = "Send verification code to email."
+  )
+  @PostMapping("/users/send-verification-code")
+  public ResponseEntity<Void> sendVerificationCode(
+      @Validated @RequestBody SendVerificationCodeDto dto
+  ) {
+    userService.sendVerificationCode(dto);
+    return ResponseEntity.ok().build();
+  }
+
   @ExceptionHandler
   public ResponseEntity<ErrorResponse> handle(AlreadyExistUserException e) {
     return ErrorResponse.badRequest(1001, e.getMessage());
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<ErrorResponse> handle(VerificationCodeNotFoundException e) {
+    return ErrorResponse.badRequest(1002, e.getMessage());
   }
 
   @ExceptionHandler
