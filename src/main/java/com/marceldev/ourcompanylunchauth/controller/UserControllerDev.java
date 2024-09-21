@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@Profile({"local", "dev"}) // In other profiles, this endpoint will not open.
+@Profile({"local", "mac"}) // In other profiles, this endpoint will not open. "mac" is dev environment.
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "1 User")

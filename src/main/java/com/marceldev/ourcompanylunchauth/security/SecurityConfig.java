@@ -35,13 +35,8 @@ public class SecurityConfig {
                 "/swagger-resources/**",
                 "/webjars/**", // for swagger
                 "/actuator/**",
-                "/**"
+                "/users/**"
             ).permitAll()
-            .requestMatchers(
-                "/users/logout",
-                "/users/changepassword"
-            )
-            .authenticated()
         )
         .addFilterAfter(jwtAuthenticationFilter, BasicAuthenticationFilter.class)
         .build();
