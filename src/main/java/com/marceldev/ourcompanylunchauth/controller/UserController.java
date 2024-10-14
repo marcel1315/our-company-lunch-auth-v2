@@ -7,6 +7,7 @@ import com.marceldev.ourcompanylunchauth.dto.TokenResponse;
 import com.marceldev.ourcompanylunchauth.exception.AlreadyExistUserException;
 import com.marceldev.ourcompanylunchauth.exception.ErrorResponse;
 import com.marceldev.ourcompanylunchauth.exception.IncorrectPasswordException;
+import com.marceldev.ourcompanylunchauth.exception.SignInFailException;
 import com.marceldev.ourcompanylunchauth.exception.VerificationCodeNotFoundException;
 import com.marceldev.ourcompanylunchauth.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,9 +42,9 @@ public class UserController {
   })
   @PostMapping("/users/signup")
   public ResponseEntity<Void> signUp(
-      @Validated @RequestBody SignUpRequest dto
+      @Validated @RequestBody SignUpRequest request
   ) {
-    userService.signUp(dto);
+    userService.signUp(request);
     return ResponseEntity.ok().build();
   }
 
@@ -53,13 +54,14 @@ public class UserController {
   )
   @ApiResponses({
       @ApiResponse(responseCode = "200", description = "OK"),
-      @ApiResponse(responseCode = "400", description = "errorCode: 1003 - Incorrect password", content = @Content)
+      @ApiResponse(responseCode = "400", description = "errorCode: 1003 - Incorrect password", content = @Content),
+      @ApiResponse(responseCode = "400", description = "errorCode: 1004 - Sign in fail", content = @Content)
   })
   @PostMapping("/users/signin")
   public ResponseEntity<TokenResponse> signIn(
-      @Validated @RequestBody SignInRequest dto
+      @Validated @RequestBody SignInRequest request
   ) {
-    TokenResponse token = userService.signIn(dto);
+    TokenResponse token = userService.signIn(request);
     return ResponseEntity.ok(token);
   }
 
@@ -68,9 +70,9 @@ public class UserController {
   )
   @PostMapping("/users/send-verification-code")
   public ResponseEntity<Void> sendVerificationCode(
-      @Validated @RequestBody SendVerificationCodeRequest dto
+      @Validated @RequestBody SendVerificationCodeRequest request
   ) {
-    userService.sendVerificationCode(dto);
+    userService.sendVerificationCode(request);
     return ResponseEntity.ok().build();
   }
 
@@ -87,5 +89,10 @@ public class UserController {
   @ExceptionHandler
   public ResponseEntity<ErrorResponse> handle(IncorrectPasswordException e) {
     return ErrorResponse.badRequest(1003, e.getMessage());
+  }
+
+  @ExceptionHandler
+  public ResponseEntity<ErrorResponse> handle(SignInFailException e) {
+    return ErrorResponse.badRequest(1004, e.getMessage());
   }
 }

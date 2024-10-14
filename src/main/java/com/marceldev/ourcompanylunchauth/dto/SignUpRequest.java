@@ -3,7 +3,7 @@ package com.marceldev.ourcompanylunchauth.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import lombok.Builder;
@@ -12,21 +12,21 @@ import lombok.Getter;
 @Getter
 public class SignUpRequest {
 
-  @NotNull
+  @NotBlank
   @Email
   @Schema(example = "hello@company.com")
   private final String email;
 
-  @NotNull
-  @Schema(description = "Password should be 8~50 long and include a English letter and a number", example = "secretpw12")
-  @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,50}$")
+  @NotBlank
+  @Schema(description = "Password should be 8~30 long and include a English letter and a number", example = "secretpw12")
+  @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d\\S]{8,30}$")
   private final String password;
 
-  @NotNull
+  @NotBlank
   @Schema(example = "Marcel")
   private final String name;
 
-  @NotNull
+  @NotBlank
   @Schema(example = "123456")
   private final String code;
 

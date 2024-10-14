@@ -51,25 +51,25 @@ public class UserService {
    * Sign up to auth server. Also save the user profile(name and etc) to business server.
    */
   @Transactional
-  public void signUp(SignUpRequest dto) {
-    checkAlreadyExistsUser(dto.getEmail());
+  public void signUp(SignUpRequest request) {
+    checkAlreadyExistsUser(request.getEmail());
 
     Role role = Role.VIEWER;
 
-    Verification verification = verificationRepository.findByEmail(dto.getEmail())
+    Verification verification = verificationRepository.findByEmail(request.getEmail())
         .orElseThrow(VerificationCodeNotFoundException::new);
 
-    matchVerificationCode(dto.getCode(), verification, dto.getNow());
+    matchVerificationCode(request.getCode(), verification, request.getNow());
 
-    String encPassword = passwordEncoder.encode(dto.getPassword());
+    String encPassword = passwordEncoder.encode(request.getPassword());
     User user = User.builder()
-        .email(dto.getEmail())
+        .email(request.getEmail())
         .password(encPassword)
         .role(role)
         .build();
 
     userRepository.save(user);
-    businessServerClient.signUp(dto, role.toString());
+    businessServerClient.signUp(request, role.toString());
     verificationRepository.delete(verification);
   }
 
@@ -78,30 +78,30 @@ public class UserService {
    * is for bulk user creation.
    */
   @Transactional
-  public void mockSignUp(SignUpRequest dto) {
-    checkAlreadyExistsUser(dto.getEmail());
+  public void mockSignUp(SignUpRequest request) {
+    checkAlreadyExistsUser(request.getEmail());
 
     Role role = Role.VIEWER;
 
-    String encPassword = passwordEncoder.encode(dto.getPassword());
+    String encPassword = passwordEncoder.encode(request.getPassword());
     User user = User.builder()
-        .email(dto.getEmail())
+        .email(request.getEmail())
         .password(encPassword)
         .role(role)
         .build();
 
     userRepository.save(user);
-    businessServerClient.signUp(dto, role.toString());
+    businessServerClient.signUp(request, role.toString());
   }
 
   /**
    * Sign in. Response is JWT token.
    */
-  public TokenResponse signIn(SignInRequest dto) {
-    User user = userRepository.findByEmail(dto.getEmail())
+  public TokenResponse signIn(SignInRequest request) {
+    User user = userRepository.findByEmail(request.getEmail())
         .orElseThrow(UserNotExistException::new);
 
-    if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+    if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
       throw new IncorrectPasswordException();
     }
 
@@ -114,8 +114,8 @@ public class UserService {
    * Send verification code to the email.
    */
   @Transactional
-  public void sendVerificationCode(SendVerificationCodeRequest dto) {
-    String email = dto.getEmail();
+  public void sendVerificationCode(SendVerificationCodeRequest request) {
+    String email = request.getEmail();
     String code = GenerateVerificationCodeUtil.generate(VERIFICATION_CODE_LENGTH);
 
     sendVerificationCodeEmail(email, code);

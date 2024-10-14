@@ -3,19 +3,19 @@ package com.marceldev.ourcompanylunchauth.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class SignInRequest {
 
-  @NotNull
+  @NotBlank
   @Email
   @Schema(description = "Company email", example = "hello@company.com")
   private String email;
 
-  @NotNull
+  @NotBlank
   @Schema(example = "secretpw12")
   private String password;
 
