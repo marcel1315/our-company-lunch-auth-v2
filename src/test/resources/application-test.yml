@@ -1,0 +1,23 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    url: jdbc:h2:mem:~/ourcompanylunchauthservertest
+    driver-class-name: org.h2.Driver
+    username: ourcompanylunchuser
+    password: a1234
+  jpa:
+    open-in-view: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+common:
+  jwt:
+    secret: irsntuuqftynustrsyutnqfrastuarkftuqtulnqfturaustnayrustuaarsewur # Key length should be at least 64 bytes.
+    expired-in-hour: 24

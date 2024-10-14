@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class BusinessServerSignUpRequestDto {
+public class BusinessServerSignUpRequest {
 
   @NotNull
   @Schema(example = "Marcel")

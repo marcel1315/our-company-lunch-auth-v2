@@ -4,16 +4,11 @@ package com.marceldev.ourcompanylunchauth.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
 
-@Data
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class SignInRequestDto {
+@Getter
+public class SignInRequest {
 
   @NotNull
   @Email
@@ -23,4 +18,10 @@ public class SignInRequestDto {
   @NotNull
   @Schema(example = "secretpw12")
   private String password;
+
+  @Builder
+  public SignInRequest(String email, String password) {
+    this.email = email;
+    this.password = password;
+  }
 }

@@ -1,9 +1,9 @@
 package com.marceldev.ourcompanylunchauth.controller;
 
-import com.marceldev.ourcompanylunchauth.dto.SendVerificationCodeDto;
-import com.marceldev.ourcompanylunchauth.dto.SignInRequestDto;
-import com.marceldev.ourcompanylunchauth.dto.SignUpRequestDto;
-import com.marceldev.ourcompanylunchauth.dto.TokenResponseDto;
+import com.marceldev.ourcompanylunchauth.dto.SendVerificationCodeRequest;
+import com.marceldev.ourcompanylunchauth.dto.SignInRequest;
+import com.marceldev.ourcompanylunchauth.dto.SignUpRequest;
+import com.marceldev.ourcompanylunchauth.dto.TokenResponse;
 import com.marceldev.ourcompanylunchauth.exception.AlreadyExistUserException;
 import com.marceldev.ourcompanylunchauth.exception.ErrorResponse;
 import com.marceldev.ourcompanylunchauth.exception.IncorrectPasswordException;
@@ -41,7 +41,7 @@ public class UserController {
   })
   @PostMapping("/users/signup")
   public ResponseEntity<Void> signUp(
-      @Validated @RequestBody SignUpRequestDto dto
+      @Validated @RequestBody SignUpRequest dto
   ) {
     userService.signUp(dto);
     return ResponseEntity.ok().build();
@@ -56,10 +56,10 @@ public class UserController {
       @ApiResponse(responseCode = "400", description = "errorCode: 1003 - Incorrect password", content = @Content)
   })
   @PostMapping("/users/signin")
-  public ResponseEntity<TokenResponseDto> signIn(
-      @Validated @RequestBody SignInRequestDto dto
+  public ResponseEntity<TokenResponse> signIn(
+      @Validated @RequestBody SignInRequest dto
   ) {
-    TokenResponseDto token = userService.signIn(dto);
+    TokenResponse token = userService.signIn(dto);
     return ResponseEntity.ok(token);
   }
 
@@ -68,7 +68,7 @@ public class UserController {
   )
   @PostMapping("/users/send-verification-code")
   public ResponseEntity<Void> sendVerificationCode(
-      @Validated @RequestBody SendVerificationCodeDto dto
+      @Validated @RequestBody SendVerificationCodeRequest dto
   ) {
     userService.sendVerificationCode(dto);
     return ResponseEntity.ok().build();

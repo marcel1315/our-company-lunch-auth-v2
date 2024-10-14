@@ -1,6 +1,6 @@
 package com.marceldev.ourcompanylunchauth.controller;
 
-import com.marceldev.ourcompanylunchauth.dto.SignUpRequestDto;
+import com.marceldev.ourcompanylunchauth.dto.SignUpRequest;
 import com.marceldev.ourcompanylunchauth.exception.AlreadyExistUserException;
 import com.marceldev.ourcompanylunchauth.exception.ErrorResponse;
 import com.marceldev.ourcompanylunchauth.service.UserService;
@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@Profile({"local", "mac"}) // In other profiles, this endpoint will not open. "mac" is dev environment.
+@Profile({"local", "mac"})
+// In other profiles, this endpoint will not open. "mac" is dev environment.
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "1 User")
@@ -38,7 +39,7 @@ public class UserControllerDev {
   })
   @PostMapping("/users/mocksignup")
   public ResponseEntity<Void> mockSignUp(
-      @Validated @RequestBody SignUpRequestDto dto
+      @Validated @RequestBody SignUpRequest dto
   ) {
     userService.mockSignUp(dto);
     return ResponseEntity.ok().build();

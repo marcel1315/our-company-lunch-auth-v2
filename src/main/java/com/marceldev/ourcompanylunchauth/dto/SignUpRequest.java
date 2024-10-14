@@ -7,30 +7,37 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDateTime;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-@Builder
-public class SignUpRequestDto {
+@Getter
+public class SignUpRequest {
 
   @NotNull
   @Email
   @Schema(example = "hello@company.com")
-  private String email;
+  private final String email;
 
   @NotNull
   @Schema(description = "Password should be 8~50 long and include a English letter and a number", example = "secretpw12")
   @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,50}$")
-  private String password;
+  private final String password;
 
   @NotNull
   @Schema(example = "Marcel")
-  private String name;
+  private final String name;
 
   @NotNull
   @Schema(example = "123456")
-  private String code;
+  private final String code;
 
   @JsonIgnore // Don't take this field from client.
   private final LocalDateTime now = LocalDateTime.now();
+
+  @Builder
+  private SignUpRequest(String email, String password, String name, String code) {
+    this.email = email;
+    this.password = password;
+    this.name = name;
+    this.code = code;
+  }
 }

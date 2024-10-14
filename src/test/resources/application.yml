@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: our-company-lunch-auth-server
+  profiles:
+    active: "test"
