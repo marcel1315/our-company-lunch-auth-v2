@@ -18,5 +18,5 @@ common:
   jwt:
     secret:
     expired-in-hour: 24
-business-server-url: http://localhost:8080
+business-server-url: http://localhost:8085
 business-server-signup-path: /members/signup
